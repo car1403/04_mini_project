@@ -7,8 +7,7 @@ chat_router = APIRouter()
 
 @chat_router.post("/chat/gemini")
 def chat_gemini(chat_request:ChatRequest) -> ApiResponse:
-    print(chat_request.user_id)
-    print(chat_request.prompt)
+
     response = ApiResponse(
         success = True,
         message = f"정상 !",

@@ -30,8 +30,6 @@ def test_create_product_returns_created_product(monkeypatch):
     assert response.status_code == 200
     assert response.json()["success"] is True
     assert response.json()["data"]["id"] == "product-1"
-
-
 def test_get_product_returns_404_when_missing(monkeypatch):
     monkeypatch.setattr(product_router, "product_get", lambda product_id: None)
 
