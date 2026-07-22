@@ -23,6 +23,7 @@ def product_create(product: ProductCreate) -> ProductPublic | None:
     )
     if not result.data:
         return None
+    # [{}]
     return ProductPublic.model_validate(result.data[0])
 
 # 2. 전체조회
