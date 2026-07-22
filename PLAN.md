@@ -38,8 +38,8 @@ FastAPI로 다음 두 기능을 제공하는 백엔드를 완성한다.
 │   └── services/
 │       ├── chat_service.py     # Gemini 호출
 │       └── product_service.py  # 상품 CRUD
-├── docs/
-│   └── schema.sql              # Supabase 테이블 생성 SQL
+├── sql/
+│   └── product.sql             # 상품 테이블 및 예제 데이터 SQL
 ├── tests/
 │   ├── test_chat_router.py
 │   └── test_product_router.py
@@ -51,9 +51,11 @@ FastAPI로 다음 두 기능을 제공하는 백엔드를 완성한다.
 
 ## 4. 데이터베이스 계획
 
-- Supabase SQL Editor에서 [docs/schema.sql](docs/schema.sql)을 실행한다.
+- Supabase SQL Editor에서 [sql/product.sql](sql/product.sql)을 실행한다.
+- 상품 테이블은 `id`(TEXT), `name`(TEXT), `price`(INTEGER, 0 이상), `created_at`(TIMESTAMP)으로 구성한다.
+- SQL 파일에는 개발·테스트용 예제 상품 데이터 10건을 포함한다.
 - 현재 서비스 구현과 맞추어 상품 ID는 문자열(`text`)로 저장한다.
-- 브라우저 클라이언트의 직접 접근은 RLS로 차단하고, 백엔드만 service-role 키로 접근한다.
+- API 요청 검증은 가격을 1 이상으로 제한하므로, 데이터베이스 제약조건(`price >= 0`)과 정책을 통일할지 결정한다.
 - 이후 UUID 기반 ID 또는 `updated_at` 컬럼이 필요해지면 서비스·스키마·테스트를 한 번에 변경한다.
 
 ## 5. API 계획
@@ -70,7 +72,7 @@ FastAPI로 다음 두 기능을 제공하는 백엔드를 완성한다.
 ## 6. 진행 순서
 
 1. `.env.example`을 만들고 Gemini·Supabase 환경 변수를 문서화한다.
-2. `docs/schema.sql`을 Supabase에 적용하고 테이블 생성을 확인한다.
+2. `sql/product.sql`을 Supabase에 적용하고 테이블과 예제 데이터 10건 생성을 확인한다.
 3. 각 API의 정상 흐름을 `/docs`에서 수동 확인한다.
 4. 외부 API·DB 예외를 500으로 노출하지 않도록 일관된 오류 응답을 구현한다.
 5. 입력값 검증과 목록 정렬 기준을 확정한다.
@@ -80,7 +82,7 @@ FastAPI로 다음 두 기능을 제공하는 백엔드를 완성한다.
 ## 7. 테스트 체크리스트
 
 - 채팅: 정상 응답, 빈 요청값, Gemini 키 누락, Gemini 호출 실패
-- 상품 생성: 정상 생성, 빈 이름, 음수/0 가격, DB 저장 실패
+- 상품 생성: 정상 생성, 빈 이름, 음수·0 가격, DB 저장 실패
 - 상품 조회: 존재하는 ID, 없는 ID, 빈 목록, 정렬 순서
 - 상품 수정·삭제: 존재하는 ID, 없는 ID, 권한 없는 요청
 

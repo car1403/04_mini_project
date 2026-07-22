@@ -12,7 +12,7 @@ from app.services.product_service import (
 )
 from app.core.api_response import ApiResponse
 
-product_router = APIRouter()
+product_router = APIRouter(tags=["Product"])
 
 # 200: 정상 - 정상 실행 되면 자동 전송
 # 400: 잘못된 요청

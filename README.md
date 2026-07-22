@@ -41,6 +41,8 @@ app/
 tests/
   test_chat_router.py
   test_product_router.py
+sql/
+  product.sql
 ```
 
 ## 설치 방법
@@ -127,6 +129,8 @@ pytest
 
 ## 참고 사항
 
-- 상품 API는 Supabase의 `products` 테이블을 사용합니다. 테이블에는 `id`, `name`, `price`, `created_at` 컬럼이 필요합니다.
+- 상품 API는 Supabase의 `products` 테이블을 사용합니다. 테이블 생성 및 예제 상품 10건은 [sql/product.sql](sql/product.sql)에 있습니다.
+- `products` 테이블은 `id`(TEXT), `name`(TEXT), `price`(INTEGER, 0 이상), `created_at`(TIMESTAMP) 컬럼으로 구성됩니다.
+- 현재 API 요청 검증은 가격을 1 이상으로 제한합니다. 데이터베이스 제약조건(`price >= 0`)과 정책을 통일하려면 이후 한쪽 기준을 조정해야 합니다.
 - Gemini 응답은 환경 변수로 설정된 API 키를 사용합니다.
 - `SUPABASE_SERVICE_ROLE_KEY`는 강한 권한을 가지므로 클라이언트 코드에 포함하거나 공개 저장소에 올리면 안 됩니다. `.env` 파일은 Git에 추가하지 마세요.
